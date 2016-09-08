@@ -1,8 +1,9 @@
 package by.bsu.calculator;
 
-import by.bsu.calculator.domain.ICalculator;
+import by.bsu.calculator.logic.ICalculator;
 import by.bsu.calculator.domain.Operation;
-import by.bsu.calculator.domain.impl.Calculator;
+import by.bsu.calculator.logic.OperationUtil;
+import by.bsu.calculator.logic.impl.Calculator;
 import by.bsu.calculator.exception.CalculatorException;
 import by.bsu.calculator.exception.OperationException;
 
@@ -26,12 +27,12 @@ public class Main {
         try {
             System.out.println("Enter first argument: ");
             first_arg = in.nextDouble();
-            System.out.println("Enter sign: ");
+            System.out.println("Enter operation: ");
             operation_sign = in.next();
             System.out.println("Enter second argument: ");
             second_arg = in.nextDouble();
 
-            Operation operation = createOperation(operation_sign);
+            Operation operation = OperationUtil.createOperation(operation_sign);
             System.out.println(calculator.execute(first_arg, second_arg, operation));
 
         } catch (OperationException e) {
@@ -39,11 +40,5 @@ public class Main {
         } catch (CalculatorException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Operation createOperation(String operation_sign) throws OperationException {
-        operation_sign.trim();
-        Operation operation = Operation.getOperation(operation_sign);
-        return operation;
     }
 }

@@ -18,6 +18,12 @@ public enum Operation {
         return representation;
     }
 
+    /**
+     * Method returns Operation object depends on its representation
+     * @param representation
+     * @return operation object
+     * @throws OperationException
+     */
     public static Operation getOperation(String representation) throws OperationException{
         switch(representation){
             case "+":
