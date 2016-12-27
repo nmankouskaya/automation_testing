@@ -38,7 +38,7 @@ public class WunderlistAutomationTest
 	/**
 	 * ListName field
 	 */
-	private  String listTitle;
+	private String listTitle;
 
 	/**
 	 * Init
@@ -54,13 +54,24 @@ public class WunderlistAutomationTest
 	/**
 	 * Test for creating list with valid title
 	 */
-	@Test
+	//@Test
 	public void testCreateListWithValidTitle()
 	{
 		steps.login(EMAIL, PASSWORD);
 		assertTrue(steps.checkLoggedIn(USERNAME));
 		steps.createNewList(listTitle);
 		assertTrue(steps.checkCreatedList(listTitle));
+	}
+
+	/**
+	 * Test for editing list title
+	 */
+	@Test
+	public void testEditListTitle()
+	{
+		steps.login(EMAIL, PASSWORD);
+		assertTrue(steps.checkLoggedIn(USERNAME));
+		steps.editListTitle("Title_Thu_Nov_17_02:09:27_MSK_2016", "Title_Thu_Nov_17_02:09:27_MSK_2016" + "_Edit");
 	}
 
 	/**

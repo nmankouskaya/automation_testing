@@ -58,4 +58,40 @@ public class MainPage extends AbstractPage
 		WebElement listDiv = driver.findElement(By.className("lists-collection"));
 		return listDiv.findElements(By.className("title"));
 	}
+
+	public WebElement getListByTitle(String title){
+		if (listCollection == null){
+			setListCollection();
+		}
+		WebElement requiredList = null;
+		for(WebElement el : listCollection.findElements(By.className("title")))
+		{
+			if(el.getText().equals(title)){
+				requiredList = el;
+			}
+		}
+		return requiredList;
+	}
+
+	private WebElement listCollection;
+
+	public void setListCollection(){
+		listCollection = driver.findElement(By.className("lists-collection"));
+	}
+
+	public void editList(String oldTitle, String newTitle)
+	{
+		if (listCollection == null){
+			setListCollection();
+		}
+		WebElement requiredList = getListByTitle(oldTitle);
+		requiredList.click();
+		WebElement editButton = listCollection.findElement(By.className("list-options"));
+		//WebElement li = requiredList.findElement(By.cssSelector("li[area-label~='"+ oldTitle +"']"));
+		editButton.click();
+		WebElement inputTitle = driver.findElement(By.className("big listOptions-title"));
+		inputTitle.sendKeys(newTitle);
+		WebElement saveButton = driver.findElement(By.className("submit full blue"));
+		saveButton.click();
+	}
 }

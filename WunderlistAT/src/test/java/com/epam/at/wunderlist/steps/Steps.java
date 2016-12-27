@@ -86,4 +86,11 @@ public class Steps
 		return false;
 	}
 
+	public void editListTitle(String oldTitle, String newTitle)
+	{
+		MainPage mainPage = new MainPage(driver);
+		mainPage.editList(oldTitle, newTitle);
+
+	}
+
 }
