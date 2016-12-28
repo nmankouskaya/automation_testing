@@ -28,6 +28,19 @@ public class MainPage extends AbstractPage
 	private WebElement buttonSave;
 
 	/**
+	 * Collection of Lists
+	 */
+	@FindBy(xpath = "//ul[@class='lists-collection']")
+	private WebElement listCollection;
+
+	/**
+	 * Set value to listCollection
+	 */
+	public void setListCollection(){
+		listCollection = driver.findElement(By.className("lists-collection"));
+	}
+
+	/**
 	 * Constructor
 	 * @param driver WebDriver
 	 */
@@ -51,7 +64,7 @@ public class MainPage extends AbstractPage
 	}
 
 	/**
-	 * Get created lists
+	 * Get lists
 	 * @return list of WebElement
 	 */
 	public List<WebElement> getLists(){
@@ -59,10 +72,18 @@ public class MainPage extends AbstractPage
 		return listDiv.findElements(By.className("title"));
 	}
 
-	public WebElement getListByTitle(String title){
+	/**
+	 * Get list by title
+	 * @param title
+	 * @return list
+	 * @throws Exception
+	 */
+	public WebElement getListByTitle(String title) throws Exception{
+		logger.log(Level.INFO, "In getListByTitle method");
 		if (listCollection == null){
 			setListCollection();
 		}
+		logger.log(Level.INFO, "Lists-Collection element is obtained");
 		WebElement requiredList = null;
 		for(WebElement el : listCollection.findElements(By.className("title")))
 		{
@@ -70,28 +91,86 @@ public class MainPage extends AbstractPage
 				requiredList = el;
 			}
 		}
+		if (requiredList == null){
+			throw new Exception("No lists in list collection.");
+		}
 		return requiredList;
 	}
 
-	private WebElement listCollection;
-
-	public void setListCollection(){
-		listCollection = driver.findElement(By.className("lists-collection"));
-	}
-
-	public void editList(String oldTitle, String newTitle)
+	/**
+	 * Rename list title
+	 * @param oldTitle
+	 * @param newTitle
+	 * @throws Exception
+	 */
+	public void renameList(String oldTitle, String newTitle) throws Exception
 	{
 		if (listCollection == null){
 			setListCollection();
 		}
+		logger.log(Level.INFO, "Lists-Collection element is obtained");
 		WebElement requiredList = getListByTitle(oldTitle);
 		requiredList.click();
-		WebElement editButton = listCollection.findElement(By.className("list-options"));
-		//WebElement li = requiredList.findElement(By.cssSelector("li[area-label~='"+ oldTitle +"']"));
-		editButton.click();
-		WebElement inputTitle = driver.findElement(By.className("big listOptions-title"));
+		logger.log(Level.INFO, "Click on list: " + oldTitle);
+
+		WebElement editSpan= listCollection.findElement(By.className("list-options"));
+		WebElement gToClick = editSpan.findElement(By.id("options"));
+		gToClick.click();
+		logger.log(Level.INFO, "Click edit button.");
+
+		WebElement inputTitle = driver.findElement(By.className("listOptions-title"));
 		inputTitle.sendKeys(newTitle);
-		WebElement saveButton = driver.findElement(By.className("submit full blue"));
+		WebElement saveButton = driver.findElement(By.className("submit"));
 		saveButton.click();
+	}
+
+	/**
+	 * Delete list by title
+	 * @param title
+	 * @throws Exception
+	 */
+	public void deleteList(String title) throws Exception
+	{
+		if (listCollection == null){
+			setListCollection();
+		}
+		logger.log(Level.INFO, "Lists-Collection element is obtained");
+		WebElement requiredList = getListByTitle(title);
+		requiredList.click();
+		logger.log(Level.INFO, "Click on list: " + title);
+
+		WebElement editSpan= listCollection.findElement(By.className("list-options"));
+		WebElement gToClick = editSpan.findElement(By.id("options"));
+		gToClick.click();
+		logger.log(Level.INFO, "Click edit button.");
+
+		WebElement deleteButton = driver.findElement(By.id("trash"));
+		deleteButton.click();
+		WebElement deleteConfirmButton = driver.findElement(By.xpath("//button[@class='confirm']"));
+		deleteConfirmButton.click();
+	}
+
+	/**
+	 * Duplicate list
+	 * @param title
+	 * @throws Exception
+	 */
+	public void duplicateList(String title) throws Exception
+	{
+		if (listCollection == null){
+			setListCollection();
+		}
+		logger.log(Level.INFO, "Lists-Collection element is obtained");
+		WebElement requiredList = getListByTitle(title);
+		requiredList.click();
+		logger.log(Level.INFO, "Click on list: " + title);
+
+		WebElement editSpan= listCollection.findElement(By.className("list-options"));
+		WebElement gToClick = editSpan.findElement(By.id("options"));
+		gToClick.click();
+		logger.log(Level.INFO, "Click edit button.");
+
+		WebElement duplicateButton = driver.findElement(By.id("duplicate"));
+		duplicateButton.click();
 	}
 }

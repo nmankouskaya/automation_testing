@@ -86,11 +86,38 @@ public class Steps
 		return false;
 	}
 
-	public void editListTitle(String oldTitle, String newTitle)
+	/**
+	 * Edit list title
+	 * @param oldTitle
+	 * @param newTitle
+	 * @throws Exception
+	 */
+	public void editListTitle(String oldTitle, String newTitle) throws Exception
 	{
 		MainPage mainPage = new MainPage(driver);
-		mainPage.editList(oldTitle, newTitle);
+		mainPage.renameList(oldTitle, newTitle);
 
 	}
 
+	/**
+	 * Delete list by title
+	 * @param title
+	 * @throws Exception
+	 */
+	public void deleteList(String title) throws Exception
+	{
+		MainPage mainPage = new MainPage(driver);
+		mainPage.deleteList(title);
+	}
+
+	/**
+	 * Duplicate list by title
+	 * @param title
+	 * @throws Exception
+	 */
+	public void duplicateList(String title) throws Exception
+	{
+		MainPage mainPage = new MainPage(driver);
+		mainPage.duplicateList(title);
+	}
 }

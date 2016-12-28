@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import com.epam.at.wunderlist.steps.Steps;
 
 import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Wunderlist automation test for case: creating new list with valid title
@@ -52,9 +53,19 @@ public class WunderlistAutomationTest
 	}
 
 	/**
+	 * Test for login
+	 */
+	@Test
+	public void testLogin()
+	{
+		steps.login(EMAIL, PASSWORD);
+		assertTrue(steps.checkLoggedIn(USERNAME));
+	}
+
+	/**
 	 * Test for creating list with valid title
 	 */
-	//@Test
+	@Test
 	public void testCreateListWithValidTitle()
 	{
 		steps.login(EMAIL, PASSWORD);
@@ -70,8 +81,40 @@ public class WunderlistAutomationTest
 	public void testEditListTitle()
 	{
 		steps.login(EMAIL, PASSWORD);
-		assertTrue(steps.checkLoggedIn(USERNAME));
-		steps.editListTitle("Title_Thu_Nov_17_02:09:27_MSK_2016", "Title_Thu_Nov_17_02:09:27_MSK_2016" + "_Edit");
+		try {
+			steps.editListTitle("Title_Thu_Nov_17_02:09:27_MSK_2016", "Title_Thu_Nov_17_02:09:27_MSK_2016" + "_Edit");
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * Test for deleting the list
+	 * List with name "List_For_Deleting" should be created before
+	 */
+	@Test
+	public void testDeleteList()
+	{
+		steps.login(EMAIL, PASSWORD);
+		try {
+			steps.deleteList("List_For_Deleting");
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * Test for duplicating the list with name "List_For_Duplicate"
+	 */
+	@Test
+	public void testDuplicateList()
+	{
+		steps.login(EMAIL, PASSWORD);
+		try {
+			steps.duplicateList("List_For_Duplicate");
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
